@@ -1,0 +1,57 @@
+import nltk
+from nltk import ngrams
+from nltk.tokenize import word_tokenize
+import random
+
+# Downloading required resources
+nltk.download('punkt')
+
+# Reading the corpus
+with open('/content/drive/MyDrive/Corpus/aa1.txt', 'r', encoding='utf-8') as f:
+    text = f.read()
+
+# Tokenizing the text into sentences
+sentences = nltk.sent_tokenize(text)
+
+#A model of reading from the user, the number of n-gram and the first word from which the formation of the sentence begins : 
+
+
+
+
+# Getting user input for n-gram model (input from user)
+n = int(input("Enter the value of n for n-gram : "))
+
+
+
+# Tokenizing the text into words
+words = word_tokenize(text)
+
+
+# Generating n-grams
+n_grams = list(ngrams(words,n))
+
+
+# Getting user input for starting word
+start_word = input("Enter the starting word : ")
+
+
+# Filtering n-grams based on starting word (from user )
+filtered_grams = [gram for gram in n_grams if gram[0] == start_word]
+
+
+# Generating random sentence based on filtered n-grams
+if filtered_grams:
+    sentence = list(random.choice(filtered_grams))
+    while len(sentence) < n:
+        last_word = sentence[-1]
+        possible_next_words = [gram for gram in n_grams if gram[0] == last_word]
+        if not possible_next_words:
+            break
+        next_word = random.choice(possible_next_words)[n-1]
+        sentence.append(next_word)
+    print(" ".join(sentence))
+else:
+    print("الكلمة المدخلة خارج السياق")
+
+
+# No matching n-gram in aa1 file found.
