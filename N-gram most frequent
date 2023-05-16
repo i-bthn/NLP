@@ -1,0 +1,41 @@
+#A model that extracts the most frequent sentences based on the word entered from the most frequently used user 
+
+import nltk
+from nltk import ngrams
+from nltk.tokenize import word_tokenize
+from collections import Counter
+
+# Downloading required resources
+nltk.download('punkt')
+
+# Reading the corpus
+with open('/content/drive/MyDrive/Corpus/aa1.txt', 'r', encoding='utf-8') as f:
+    text = f.read()
+
+# Tokenizing the text into sentences
+sentences = nltk.sent_tokenize(text)
+
+# Getting user input for starting word
+start_word = input("Enter the starting word: ")
+
+# Getting user input for n-gram model
+n = 3
+
+# Tokenizing the text into words
+words = word_tokenize(text)
+
+# Generating n-grams
+n_grams = list(ngrams(words, n))
+
+# Filtering n-grams based on starting word
+filtered_grams = [gram for gram in n_grams if gram[0] == start_word]
+
+# Counting the frequencies of filtered n-grams
+frequencies = Counter(filtered_grams)
+
+# Getting the top 10 most frequent sentences
+top_sentences = [sentence for sentence, count in frequencies.most_common(10)]
+
+# Printing the top 10 sentences
+for sentence in top_sentences:
+    print(" ".join(sentence))
